@@ -1,6 +1,8 @@
 {
     "name": "cypher-m/kinesis-hrm",
     "description": "Amazon Kinesis is a managed service that scales elastically for real-time processing of streaming big data",
+    "minimum-stability": "dev",
+    "license": "MIT",
     "require": {
         "php": ">=5.3.3"
     },
