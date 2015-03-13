@@ -1,0 +1,6 @@
+var dl_obj = Bootstrapper.dataManager ? Bootstrapper.dataManager.getData() : {};
+var imgSrc = "hearstkin.gif";
+//if(location.hostname.match("sfgate.com")) imgSrc = "hearstkin.gif"
+var ua = Bootstrapper.ensDeviceTypeOS();
+
+new Image().src = 'http://kinesisproxy.hearstlabs.com/' + imgSrc + '?cId=' + getIXingId() + '&icxid=' + escape(dl_obj['kicrossingCookie']) + '&loc=h&hash=' + dl_obj['kurlHash'] + '&ts=' + new Date().getTime()  + '&ref=' + escape(dl_obj['kreferral']) + '&ip_address=' + (Bootstrapper._clientIP || "") + '&bu=' + escape((typeof dl_obj['kbu'] !== "object"? dl_obj['kbu'] : JSON.stringify(dl_obj['kbu'])))+ '&brand=' + escape((typeof dl_obj['kbrand'] !== "object"? dl_obj['kbrand'] : JSON.stringify(dl_obj['kbrand'])))+ '&ref_type=' + escape((typeof dl_obj['krefType'] !== "object"? dl_obj['krefType'] : JSON.stringify(dl_obj['krefType'])))+ "&ua=" + ua + "&tz=" + escape(dl_obj['ktimeZone']) + "&ts2=" + escape(dl_obj['ktimeStamp2'])+ '&url=' + escape(dl_obj['kfullUrl']);
