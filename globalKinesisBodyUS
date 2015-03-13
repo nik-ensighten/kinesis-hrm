@@ -1,0 +1,105 @@
+function ensaddEvent(elem, event_name, event_function) 
+{       
+   if(elem.attachEvent) //Internet Explorer
+      elem.attachEvent("on" + event_name, function() {event_function.call(elem);}); 
+   else if(elem.addEventListener) //Firefox & company
+      elem.addEventListener(event_name, event_function, false); //don't need the 'call' trick because in FF everything already works in the right way          
+} 
+
+// Kinesis Body Call
+
+// Create Array for Events:
+window.kinesisScroll = ['0'];
+
+// Don's Modified Scrolling Plugin
+window.onscroll = function() {
+  var wintop = (function() {
+    if (typeof pageYOffset != 'undefined') {
+      //most browsers except IE before #9
+      return pageYOffset;
+    } else {
+      var B = document.body; //IE 'quirks'
+      var D = document.documentElement; //IE with doctype
+      D = (D.clientHeight) ? D : B;
+      return D.scrollTop;
+    }
+  }());
+  var docheight = (function() {
+    var D = document;
+    return Math.max(
+    D.body.scrollHeight, D.documentElement.scrollHeight,
+    D.body.offsetHeight, D.documentElement.offsetHeight,
+    D.body.clientHeight, D.documentElement.clientHeight);
+  }());
+  var winheight = (function() {
+    if (document.compatMode === 'BackCompat') {
+      viewportHeight = document.body.clientHeight;
+    } else {
+      viewportHeight = document.documentElement.clientHeight;
+    }
+    return viewportHeight;
+  }());
+
+  var z = wintop / (docheight - winheight);
+
+  if (z > 0.10 && !kinesisScroll[1]) {
+    kinesisScroll.push('10');
+    //console.log('kinesisScroll-10%');
+  } else if (z > 0.20 && !kinesisScroll[2]) {
+    kinesisScroll.push('20');
+    //console.log('kinesisScroll-20%');
+  } else if (z > 0.30 && !kinesisScroll[3]) {
+    kinesisScroll.push('30');
+    //console.log('kinesisScroll-30%');
+  } else if (z > 0.40 && !kinesisScroll[4]) {
+    kinesisScroll.push('40');
+    //console.log('kinesisScroll-40%');
+  } else if (z > 0.50 && !kinesisScroll[5]) {
+    kinesisScroll.push('50');
+    //console.log('kinesisScroll-50%');
+  } else if (z > 0.60 && !kinesisScroll[6]) {
+    kinesisScroll.push('60');
+    //console.log('kinesisScroll-60%');
+  } else if (z > 0.70 && !kinesisScroll[7]) {
+    kinesisScroll.push('70');
+    //console.log('kinesisScroll-70%');
+  } else if (z > 0.80 && !kinesisScroll[8]) {
+    kinesisScroll.push('80');
+    //console.log('kinesisScroll-80%');
+  } else if (z > 0.90 && !kinesisScroll[9]) {
+    kinesisScroll.push('90');
+    //console.log('kinesisScroll-90%');
+  } else if (z > 0.95 && !kinesisScroll[10]) {
+    kinesisScroll.push('95');
+    //console.log('kinesisScroll-100%');
+  } else {}
+  //console.log(kinesisScroll)
+};
+
+// Event - Spend X Seconds on Page
+window.timerFlag = false;
+secondsTimer = 90;
+msTimer = secondsTimer * 1000;
+window.setTimeout(function() {
+  //console.info(kinesisScroll[a])
+  kinesisFire('sop');
+  timerFlag = true;
+}, msTimer);
+
+ensaddEvent(window, 'beforeunload', function() {
+  if (!timerFlag) {
+    kinesisFire("unload");
+  }
+}
+);
+
+window.kinesisFire = function(exit) {
+  timestamp = new Date().getTime();
+  loadTime = (timestamp - window.dHash) / 1000;
+  var dl_obj = window.Bootstrapper.dataManager ? window.Bootstrapper.dataManager.getData() : {};
+  var imgSrc = "hearstkin.gif";
+  //if(location.hostname.match("sfgate.com")) imgSrc = "hearstkin.gif"
+  var ua = Bootstrapper.ensDeviceTypeOS();
+  var a = window.kinesisScroll.length - 1;
+ new Image().src = 'http://kinesisproxy.hearstlabs.com/' + imgSrc + '?cId=' + getIXingId() + '&icxid=' + escape(dl_obj['kicrossingCookie']) + '&loc=h&hash=' + dl_obj['kurlHash'] + '&ts=' + new Date().getTime()  + '&icctm_ht_dtpub=' + escape((typeof dl_obj['kpublishDate'] !== "object" ? dl_obj['kpublishDate'] : JSON.stringify(dl_obj['kpublishDate']))) + '&modDate=' + escape((typeof dl_obj['kmodDate'] !== "object" ? dl_obj['kmodDate'] : JSON.stringify(dl_obj['kmodDate']))) +  '&icctm_ht_aid=' + escape((typeof dl_obj['karticleId'] !== "object" ? dl_obj['karticleId'] : JSON.stringify(dl_obj['karticleId']))) +  '&ref=' + escape(dl_obj['kreferral']) + '&load=' + loadTime + '&ip_address=' + (Bootstrapper._clientIP || "") + '&bu=' + escape((typeof dl_obj['kbu'] !== "object"? dl_obj['kbu'] : JSON.stringify(dl_obj['kbu']))) + '&site=' + escape((typeof dl_obj['ksite'] !== "object"? dl_obj['ksite'] : JSON.stringify(dl_obj['ksite']))) + '&kw=' + escape((typeof dl_obj['kkeywords'] !== "object"? dl_obj['kkeywords'] : JSON.stringify(dl_obj['kkeywords'])))  + '&brand=' + escape((typeof dl_obj['kbrand'] !== "object"? dl_obj['kbrand'] : JSON.stringify(dl_obj['kbrand'])))+ '&ref_type=' + escape((typeof dl_obj['krefType'] !== "object"? dl_obj['krefType'] : JSON.stringify(dl_obj['krefType'])))+ "&ua=" + ua  + '&icctm_ht_attl=' + escape((typeof dl_obj['ktitle'] !== "object" ? dl_obj['ktitle'] : JSON.stringify(dl_obj['ktitle']))) + '&type=' + escape((typeof dl_obj['ktype'] !== "object"? dl_obj['ktype'] : JSON.stringify(dl_obj['ktype']))) + "&tz=" + escape(dl_obj['ktimeZone']) + "&ts2=" + escape(dl_obj['ktimeStamp2']) + '&icctm_ht_cnocl=' + escape((typeof dl_obj['kcanonical'] !== "object" ? dl_obj['kcanonical'] : JSON.stringify(dl_obj['kcanonical']))) + '&icctm_ht_athr=' + escape(dl_obj['karticleAuthor']) + '&section=' + escape((typeof dl_obj['ksection'] !== "object" ? dl_obj['ksection'] : JSON.stringify(dl_obj['ksection']))) + '&subsection=' + escape((typeof dl_obj['ksubSection'] !== "object" ? dl_obj['ksubSection'] : JSON.stringify(dl_obj['ksubSection']))) + '&img=' + escape((typeof dl_obj['kimageUrl'] !== "object" ? dl_obj['kimageUrl'] : JSON.stringify(dl_obj['kimageUrl']))) + '&url=' + escape(dl_obj['kfullUrl']) + '&mxdpth=' + kinesisScroll[a] + '&exitevent=' + exit;
+}
